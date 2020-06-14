@@ -203,3 +203,82 @@ SecondRank -> C | CC | CCC | CD | DC | DCC | DCCC | CM | e
 ThirdRank -> X | XX | XXX | XL | L | LXX | LXXX | XC | e
 ForthRank -> I | II | III | IV | V | VLL | VLLL | IX  | e
 #+END_SRC
+
+* 2.3の練習問題
+
+** 2.3.1
+
+#+NAME:  
+#+BEGIN_SRC BNF
+expr -> {printf("+")} expr1 + term 
+epxr -> {printf("-"} expr1 - term 
+expr -> term        
+term -> {printf("*"} term * factor 
+term -> {printf("/")} term / factor 
+term -> factor 
+factor -> {print(1) } 1 
+...
+factpr -> {print(9) } 9
+#+END_SRC
+
+9-5+2の注釈付き解析木
+#+NAME:  
+#+BEGIN_SRC 
+(expr (print +)
+      (expr  (print -)
+             (term (factor (print 9) 9))
+             -
+             (term (factor (print 5) 5)))
+       +
+       (term (factor (print 2) 2)))
+#+END_SRC
+9-5*2の注釈付き解析木
+#+NAME: 
+#+BEGIN_SRC 
+(expr (print -)
+      (term (factor (print 9)))
+       -
+      (term (print *)
+            (factor (print 5) 5)
+            *
+            (factor (print 2) 2)))
+#+END_SRC
+
+** 問題2.3.2
+
+
+#+NAME:  
+#+BEGIN_SRC BNF
+expr -> {print (} expr {print +} expr {print )} +
+expr -> (print (} expr {print -} expr {print )} -
+expr -> expr {print *} expr *
+expr -> expr {print /} expr /
+expr -> term
+term -> (print num) num
+#+END_SRC
+95-2*
+#+NAME:  
+#+BEGIN_SRC 
+(expr 
+    (expr (print "(")
+          (expr (term (print 9) 9))
+          (print -)
+          (expr (term (print 5) 5))
+          (print ")")
+           -)
+     (print *)
+     (expr (term (print 2) 2))
+     *)
+#+END_SRC
+952*-
+#+NAME:  
+#+BEGIN_SRC 
+(expr (print "(")
+      (expr (term (print 9) 9))
+      (print +)
+      (expr (expr (term (print 5) 5))
+            (print *)
+            (expr (term (print 2)))
+            *)
+      (print ")"))
+#+END_SRC
