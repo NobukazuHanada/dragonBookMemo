@@ -282,3 +282,103 @@ term -> (print num) num
             *)
       (print ")"))
 #+END_SRC
+
+** 問題2.3.3 
+
+#+NAME:  
+#+BEGIN_SRC 
+thousand -> 1 {print M} hundred
+thousand -> 2 {print MM} hundred
+thousand -> 3 {print MMM} hundred
+thousand -> hundred
+hundred -> 1 {print C} ten
+hundred -> 2 {print CC} ten
+hundred -> 3 {print CCC} ten 
+hundred -> 4 {print CD} ten
+hundred -> 5 {print D} ten 
+hundred -> 6 {print DC} ten 
+hundred -> 7 {print DCC} ten
+hundred -> 8 {print DCCC} ten
+hundred -> 9 {print CM} ten 
+hundred -> 0 ten
+hundred -> ten
+ten -> 1 {print X} ten
+ten -> 2 {print XX} ten 
+ten -> 3 {print XXX} ten 
+ten -> 4 {print XL} ten
+ten -> 5 {print L} ten
+ten -> 6 {print LX} ten
+ten -> 7 {print LXX} ten
+ten -> 8 {print LXXX} ten
+ten -> 9 {print XC} ten
+ten -> 0 one
+ten -> one
+one -> 1 {print I}
+one -> 2 {print II}
+one -> 3 {print III}
+one -> 4 {print IV}
+one -> 5 {print V}
+one -> 6 {print VI}
+one -> 7 {print VII}
+one -> 8 {print VIII}
+one -> 9 {print IX}
+one -> 0
+#+END_SRC
+
+** 問題2.3.4
+
+#+NAME: 
+#+BEGIN_SRC 
+RomaNum -> thousand 
+RomaNum -> hundred
+RomaNum -> ten 
+RomaNum -> one
+thousand -> thousandRank hundred
+thousand -> thousandRank {print 0} ten
+thousand -> thousandRank {print 0} {print 0} one
+thousand -> thousandRank {print 0} {print 0} {print 0}
+hundred -> hundredRank ten one 
+hundred -> hundredRank {print 0} one
+hundred -> hundredRank {print 0} {print 0}
+ten -> tenRank one 
+ten -> tenRank {print 0}
+one -> oneRank
+thousandRank -> M    {print 1}
+thousandRank -> MM   {print 2}
+thousandRank -> MM   {print 3}
+hundredRank  -> C    {print 1}
+hundredRank  -> CC   {print 2} 
+hundredRank  -> CCC  {print 3}  
+hundredRank  -> CD   {print 4}  
+hundredRank  -> D    {print 5}  
+hundredRank  -> DC   {print 6}  
+hundredRank  -> DCC  {print 7}  
+hundredRank  -> DCCC {print 8}  
+hundredRank  -> CM   {print 9}  
+tenRank      -> X    {print 1}
+tenRank      -> XX   {print 2}
+tenRank      -> XXX  {print 3}
+tenRank      -> XL   {print 4}
+tenRank      -> L    {print 5}
+tenRank      -> LX   {print 6}
+tenRank      -> LXX  {print 7}
+tenRank      -> LXXX {print 8}
+oneRank      -> XC   {print 9}
+oneRank      -> I    {print 1}
+oneRank      -> II   {print 2}
+oneRank      -> III  {print 3}
+oneRank      -> IV   {print 4}
+oneRank      -> V    {print 5}
+oneRank      -> VI   {print 6}
+oneRank      -> VII  {print 7}
+oneRank      -> VIII {print 8}
+oneRank      -> IX   {print 9}
+#+END_SRC
+
+** 問題2.3.5
+#+NAME: 
+#+BEGIN_SRC
+expr -> {print op} expr expr op 
+expr -> {print num} num 
+#+END_SRC
+
