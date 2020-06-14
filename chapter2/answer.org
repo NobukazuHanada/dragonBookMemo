@@ -1,0 +1,205 @@
+* 2.2の練習問題
+** 問題2.2.1
+*** a)
+1. aはSである
+2. aa+は,S S +によりSである
+3. S S *によりaa+a*はSである。
+*** b)
+#+NAME: 解析木
+#+BEGIN_SRC emacs-lisp 
+  '(S
+    (S 
+     (S a) 
+     (S a) 
+     +) 
+    (S a) 
+    *)
+#+END_SRC       
+*** c)
+aと+と*の記号で、構成され、+記号と、*記号を演算子として後置構文的な文法を構成する。
+S S +と、S S *という文法本体によって、後置的なる。
+
+** 問題2.2.2
+*** a) S -> 0 S 1 | 0 1
+0と1が1<nの任意の自然数n個の0が並び、n個の1が並ぶ。
+S1 = 01
+S2 = 0011
+S3 = 000111
+のように、0がn個、1がn個ならぶとき、Snと表現する。 
+1. n = 1のときは
+生成規則の本体の右側により。01はSである。
+2. n = k (kは1以上の任意の自然数)のとき、SkがSであるとする。
+すると、0Sk1 がSであり、これは、S(k+1)でもあるので、S(k+1)はSである。 
+よって、1,2により、Snは、Sである。
+
+*** b) S -> + S S | - S S | a
++と-のみの、前置記法の言語である。
+本体の+ S Sと- S S によって前置記法を構成する。
+
+*** c) S -> S ( S ) S | e
+()()や(())() のようなやつ。
+
+*** d) S -> a S b S | b S a S | e
+空および、aとbが同じ回数だけ出てくる文法。
+Lnをaとbがn回でてくる言語とする。
+1) L0はeのみの集合なので、L0はSの部分集合、
+2) Lk (k任意の自然数)とき LkはSの部分集合であるならば
+Lkの任意の要素をxとすると
+abx
+axb
+xab
+bax
+bxa
+xba
+すべてがL(k+1)の要素であることを示したらよい。
+1)abxは、a S1 b S2 よりS1 = e, S2 = xとおけば導出できる
+2) axbは S1 = x, S2 = eにより導出できる
+xabは、x = a'x または、x = b'xと分かれる
+とするとa'xabまたは、b'xabと分かれる
+よって、a('xa)bとb('xa)bとなり、
+'xaもまたLkの要素であり、2により導出が可能
+abは対照的なので、のこりも同様に導出ができるのでLkはSに含まれる。
+また、Lは絶対にa,b以外の記号が出てこない。また、どの文法規則も、aとbは同じ回数出現するので、aとbの出現は同数となうる。
+よって、LNはSである。
+
+*** e) S -> a | S + S | S S | S * | (S)
+aが任意の数出てきて、+は2項演算子、*は後置単項演算子、(S)でネストできる言語。
+S + Sにより、+は2項演算子S *により後置演算子、(S)により、ネスト
+
+** 問題2.2.3
+*** a,bは曖昧ではない
+*** c). 
+たとえば、()()のとき
+
+#+NAME: 解析木
+#+BEGIN_SRC emacs-lisp 
+'(S (S (S e) "(" (S e) ")" (S e)) 
+    "(" 
+    (S e)
+    ")"
+    (S e))
+#+END_SRC       
+
+または
+
+#+NAME: 解析木
+#+BEGIN_SRC emacs-lisp 
+'(S (S e)
+    "(" 
+    (S e)
+    ")"
+    (S (S e) "(" (S e) ")" (S e)))
+#+END_SRC       
+
+で曖昧になる
+
+*** d)
+ababを考える
+
+#+NAME: 解析木
+#+BEGIN_SRC emacs-lisp 
+'(S a
+    (S b (S e) a (S e)) 
+    b
+    (S e))
+#+END_SRC       
+
+#+NAME: 解析木
+#+BEGIN_SRC emacs-lisp 
+'(S a
+    (S e)
+    b
+    (S a (S e) b (S e)))
+#+END_SRC
+
+により曖昧である
+
+*** e 
+aaaを考える
+
+
+#+NAME: 解析木
+#+BEGIN_SRC emacs-lisp 
+'(S (S (S a)
+       (S a)
+    (S a)))
+#+END_SRC
+
+#+NAME: 解析木
+#+BEGIN_SRC emacs-lisp 
+'(S (S a)
+    (S (S a)
+       (S a)))
+#+END_SRC
+
+により曖昧である。
+
+** 問題2.2.4
+
+*** a
+#+NAME: 
+#+BEGIN_SRC 
+Expr -> Expr Expr * | Expr Expr - | Expr Expr + | Expr Expr / | num
+#+END_SRC
+
+*** b
+
+#+NAME: 
+#+BEGIN_SRC 
+list -> elem , list | left
+#+END_SRC
+
+
+*** c
+
+#+NAME: 
+#+BEGIN_SRC 
+list -> list, elem | elem
+#+END_SRC
+
+*** d
+
+#+NAME: 
+#+BEGIN_SRC BNF
+expr -> expr + term | expr - term | term
+term -> term * factor | term / factor | factor 
+factor -> num | id | ( expr )
+#+END_SRC
+
+*** e
+
+#+NAME: 
+#+BEGIN_SRC BNF
+expr -> expr + term | expr - term | term
+term -> term * single | term / single | single
+single -> factor | + factor | - factor
+factor -> num | id | ( expr )
+#+END_SRC
+
+** 問題2.2.5
+num -> 11 | 1001| num 0 | num num
+
+1. 11, 1001は3で割きれる。
+ 11 / 11 = 1 , 1001 / 11 = 11
+2. numが3で割り切れるとする
+num0は、0をシフトしただけであり、numが割り切ればnum0は割りきれる。
+num num も当然3で割りきれる。
+よって、numは割りきれる。
+
+**  問題2.2.6
+ ローマ数字、は
+1 ~ 9 :I, II, III, IV, V, VI, VII, VIII, IX
+10 ~ 90 : X, XX, XXX, XL, L, LX, LXX, LXXX, XC
+100 ~ 900 : C, CC, CCC, CD, DC, DCC, DCCC, CM
+1000 ~ 3000 : M, MM, MMM
+
+ のみである。よって、終端記号は、I, V, X, L,C, D, M である。
+
+#+NAME: 
+#+BEGIN_SRC BNF
+GreekNum -> FirstRank SecondRank ThirdRank ForthRank
+FirstRank -> M | MM  | MMM | e
+SecondRank -> C | CC | CCC | CD | DC | DCC | DCCC | CM | e
+ThirdRank -> X | XX | XXX | XL | L | LXX | LXXX | XC | e
+ForthRank -> I | II | III | IV | V | VLL | VLLL | IX  | e
+#+END_SRC
